@@ -33,7 +33,7 @@ class CookieManagerHelper {
             clearCookies()
         } else {
             cookieManager.acceptCookie()
-            cookieManager.setAcceptThirdPartyCookies(webView, true)
+            cookieManager.setAcceptThirdPartyCookies(webView, false)
             cookieManager.flush()
         }
     }
