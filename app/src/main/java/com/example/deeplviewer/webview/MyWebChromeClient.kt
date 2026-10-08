@@ -61,10 +61,14 @@ class MyWebChromeClient(
     }
 
     private fun openExternalUrl(url: String) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        runCatching {
-            mainWebView.context.startActivity(intent)
+        val uri = Uri.parse(url)
+        val scheme = uri.scheme?.lowercase()
+        if (scheme == "http" || scheme == "https") {
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            runCatching {
+                mainWebView.context.startActivity(intent)
+            }
         }
     }
 }

@@ -40,8 +40,8 @@ class FloatingTextSelection : AppCompatActivity() {
                     null
                 }
 
-            val floatingText = (androidTranslateFloatingText
-                ?: intent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT)) as String
+            val floatingText = (androidTranslateFloatingText?.toString()
+                ?: intent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT)?.toString() ?: "")
             val config = getSharedPreferences("config", Context.MODE_PRIVATE)
             val usePopup = config.getBoolean(getString(R.string.key_switch_popup_mode), true)
 

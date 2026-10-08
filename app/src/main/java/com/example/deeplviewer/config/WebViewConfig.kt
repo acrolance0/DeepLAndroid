@@ -44,7 +44,7 @@ object WebViewConfig {
             }
 
             // mixed content mode
-            mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+            mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
         }
     }
 }
