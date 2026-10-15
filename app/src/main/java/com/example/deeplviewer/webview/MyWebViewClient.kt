@@ -180,10 +180,15 @@ class MyWebViewClient(
     }
 
     private inner class ReloadButtonListener : View.OnClickListener {
+        @Suppress("DEPRECATION")
         override fun onClick(view: View) {
             val i = Intent(activity, MainActivity::class.java)
             activity.finish()
-            activity.overridePendingTransition(0, 0)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                activity.overrideActivityTransition(Activity.OVERRIDE_TRANSITION_CLOSE, 0, 0)
+            } else {
+                activity.overridePendingTransition(0, 0)
+            }
             activity.startActivity(i)
         }
     }

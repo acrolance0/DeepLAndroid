@@ -58,20 +58,30 @@ class FloatingTextSelection : AppCompatActivity() {
         finish()
     }
 
+    @Suppress("DEPRECATION")
     override fun finish() {
         super.finish()
-        overridePendingTransition(0, 0)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0)
+        } else {
+            overridePendingTransition(0, 0)
+        }
     }
 
     /**
      * Launches the DeepL WebView in fullscreen mode with the selected text
      */
+    @Suppress("DEPRECATION")
     private fun launchFullscreen(initialText: String) {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("FLOATING_TEXT", initialText)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)
         startActivity(intent)
-        overridePendingTransition(0, 0)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, 0, 0)
+        } else {
+            overridePendingTransition(0, 0)
+        }
         finish()
     }
 

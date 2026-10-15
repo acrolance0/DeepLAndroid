@@ -21,6 +21,7 @@ class QSTileService : TileService() {
                 PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
             )
         } else {
+            @Suppress("DEPRECATION")
             startActivityAndCollapse(intent)
         }
     }
