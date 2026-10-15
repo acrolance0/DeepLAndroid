@@ -105,7 +105,7 @@ class NestedScrollWebView @JvmOverloads constructor(
                 activePointerId = INVALID_POINTER
                 recycleVelocityTracker()
                 if (scroller.springBack(scrollX, scrollY, 0, 0, 0, computeVerticalScrollRange())) {
-                    ViewCompat.postInvalidateOnAnimation(this)
+                    postInvalidateOnAnimation()
                 }
                 stopNestedScroll()
             }
@@ -117,7 +117,7 @@ class NestedScrollWebView @JvmOverloads constructor(
     override fun onTouchEvent(ev: MotionEvent): Boolean {
         initVelocityTrackerIfNotExists()
         val vtev = MotionEvent.obtain(ev)
-        val actionMasked = MotionEventCompat.getActionMasked(ev)
+        val actionMasked = ev.actionMasked
         if (actionMasked == MotionEvent.ACTION_DOWN) {
             nestedYOffset = 0
         }
@@ -187,8 +187,7 @@ class NestedScrollWebView @JvmOverloads constructor(
                         1000,
                         configuration.scaledMaximumFlingVelocity.toFloat()
                     )
-                    val initialVelocity = VelocityTrackerCompat.getYVelocity(
-                        velocityTracker,
+                    val initialVelocity = velocityTracker!!.getYVelocity(
                         activePointerId
                     ).toInt()
                     if (abs(initialVelocity) > configuration.scaledMinimumFlingVelocity) {
@@ -198,7 +197,7 @@ class NestedScrollWebView @JvmOverloads constructor(
                             computeVerticalScrollRange()
                         )
                     ) {
-                        ViewCompat.postInvalidateOnAnimation(this)
+                        postInvalidateOnAnimation()
                     }
                 }
                 activePointerId = INVALID_POINTER
@@ -211,18 +210,18 @@ class NestedScrollWebView @JvmOverloads constructor(
                             computeVerticalScrollRange()
                         )
                     ) {
-                        ViewCompat.postInvalidateOnAnimation(this)
+                        postInvalidateOnAnimation()
                     }
                 }
                 activePointerId = INVALID_POINTER
                 endNestedDrag()
             }
-            MotionEventCompat.ACTION_POINTER_DOWN -> {
-                val index = MotionEventCompat.getActionIndex(ev)
+            MotionEvent.ACTION_POINTER_DOWN -> {
+                val index = ev.actionIndex
                 lastMotionY = ev.getY(index).toInt()
                 activePointerId = ev.getPointerId(index)
             }
-            MotionEventCompat.ACTION_POINTER_UP -> {
+            MotionEvent.ACTION_POINTER_UP -> {
                 onSecondaryPointerUp(ev)
                 lastMotionY = ev.getY(ev.findPointerIndex(activePointerId)).toInt()
             }
@@ -307,7 +306,7 @@ class NestedScrollWebView @JvmOverloads constructor(
                 scrollX, scrollY, 0, velocityY, 0, 0, 0,
                 (bottom - height).coerceAtLeast(0), 0, height / 2
             )
-            ViewCompat.postInvalidateOnAnimation(this)
+            postInvalidateOnAnimation()
         }
     }
 
